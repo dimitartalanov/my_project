@@ -17,6 +17,7 @@ export class ProductsListService extends AbstractFirebaseService<any> {
   batch = 4;
   lastKey = '';
   finished = false;
+  private smarthPhonesFilter: FirebaseListObservable<any[]>;
   private listProduct: FirebaseListObservable<any[]>;
   constructor(
     protected db: AngularFireDatabase,
@@ -25,77 +26,91 @@ export class ProductsListService extends AbstractFirebaseService<any> {
     super(db, authService);
 
   }
-  getListProductByCamera(prop, mp) {
-    // cameraMP=
-    if (prop === '') {
-      return;
-    }
-    this.listProduct =
-      this.getList({
-        query: {
-          orderByChild: prop, // equalTo: '12 MP' } })
-          startAt: mp,
-          endAt: mp + 'uf8ff',
-        }
-      });
-    //  .once("value")
-    // console.log(this.listProduct)-tova dava subscribe
-    //  const filtered = this.listProduct.map((item) => item.filter(it => it.title === 'Samsung Galaxy S8 Active'));
-    this.listProduct.subscribe(x => console.log(x))
-    //  filtered.subscribe(x => console.log(x))
-    //  return this.getLatestCountItems();
-  } // towa go otkomentirah
   get entityPath(): string {
     return `/smartphones`;
   }
-  getLatestCountItems(): Observable<any[]> {
-    return this.listProduct.map((item) => {
-      const items = [];
+  getPhonesWhenScroll(batch, prop, value, lastKey?) {
 
-      item.forEach((product) => {
-        this.get(product.$key)
-          .subscribe((phone) => {
-            items.push(phone);
-          });
-      });
+    let query;
+    if (prop === '') {
+      query = {
+        orderByKey: true,
+        limitToFirst: batch,
+      };
+    } else {
 
-      return items;
-    });
-  }
-
-  getPhonesWhenScroll(batch, lastKey?) {
-    const query = {
-      orderByKey: true,
-      limitToFirst: batch,
-    };
+      query = {
+        orderByChild: prop,
+        startAt: value,
+        endAt: value + '\uf8ff',
+      };
+    }
     if (lastKey) {
       query['startAt'] = lastKey;
     }
     return this.getList({ query });
   }
-  getSmarthphones(key?) {
+
+  getSmarthphones(prop, value?, key?) {
     if (this.finished) {
       return;
     }
-    this.getPhonesWhenScroll(this.batch + 1, this.lastKey)
+
+    this.getPhonesWhenScroll(this.batch + 1, prop, value, this.lastKey)
       .do(phones => {
+
         this.lastKey = _.last(phones)['$key'];
 
         const newPhones = _.slice(phones, 0, this.batch);
+
 
         const currentPhones = this.smartPhones.getValue();
 
         if (this.lastKey === _.last(newPhones)['$key']) {
           this.finished = true;
         }
+
         this.smartPhones.next(_.concat(currentPhones, newPhones));
+
       }).take(1).subscribe();
-    //  this.smartPhones.subscribe(c => console.log(c))
+
+
     return this.smartPhones;
   }
-  getPhonesCamera(numMP) {
-    /* return this.listProduct.map((item) => {
+
+  isFInishedScroll() {
+    return this.finished;
+  }
+  getPhonesFilter(filters) {
+    for (let i = 0; i < filters.length; i += 1) {
+      const prop = filters[i].prop;
+      const value = filters[i].value;
       const items = [];
+      this.listProduct = this.getPhonesWhenScroll(0, prop, value);
+      return this.listProduct.map((item) => {
+
+        item.forEach((product) => {
+          this.get(product.$key)
+            .subscribe((phone) => {
+              items.push(phone);
+            });
+        });
+        return items;
+      });
+    }
+  }
+
+  getProduct(queryProductId) {
+
+    const items = [];
+    this.listProduct = this.getList({
+
+      query: {
+        orderByChild: 'iserId',
+        equalTo: queryProductId
+      }
+
+    }); return this.listProduct.map((item) => {
 
       item.forEach((product) => {
         this.get(product.$key)
@@ -103,9 +118,7 @@ export class ProductsListService extends AbstractFirebaseService<any> {
             items.push(phone);
           });
       });
-      console.log(items)
       return items;
     });
- */
   }
 }

@@ -1,4 +1,9 @@
+import { AuthService } from './../../../shared/services/auth.service';
+import { ProductService } from './../../../product/services/product.service';
+import { ProductsListService } from './../../../products-list/services/products-list.service';
+
 import { Component } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 
 
 @Component({
@@ -8,17 +13,25 @@ import { Component } from '@angular/core';
 })
 
 export class ShoppingCartComponent {
-  products = [
-    {
-      name: 'Nokiq edikva si',
-      price: 12.00,
-      imageURL: 'https://www.get.bg/media/catalog/product/n/o/nokia-130-dual-sim-gsm(1).jpg'
-    },
-    {
-      name: 'Nokia 1610',
-      price: 13.50,
-      imageURL: 'https://images-na.ssl-images-amazon.com/images/I/41UbZXPUoUL._SY445_.jpg'
-    },
-  ];
-  totalPrice = this.products.reduce((total, amount) => total + amount.price, 0);
+  private userId: string;
+  private products;
+  private totalPrice = 1.020;
+  constructor(private authService: AuthService, private productsListService: ProductsListService,
+    private productService: ProductService,
+    private route: ActivatedRoute
+  ) {
+    this.authService.authState.subscribe(id => {
+      this.userId = id.uid;
+      // this.products = this.userService.addToCart();
+      this.products = this.productsListService.getProduct(this.userId);
+    });
+  }
+
+
+
+  removeProduct(el) {
+    console.log(el.currentTarget.value);
+    const product = this.productService.getProduct(el.currentTarget.value);
+
+  }
 }
