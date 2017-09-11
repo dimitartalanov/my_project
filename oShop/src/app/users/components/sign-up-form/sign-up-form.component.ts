@@ -47,6 +47,7 @@ export class SignUpFormComponent implements OnInit {
         if (error) {
           this.authError = error.message;
         } else {
+
           this.router.navigateByUrl(this.returnUrl);
         }
       });

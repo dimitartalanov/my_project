@@ -1,4 +1,4 @@
-// import { UserRoutersService } from './shared/services/user-routers.service';
+import { UserRoutersService } from './shared/services/user-routers.service';
 import { AuthService } from './shared/services';
 
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -12,7 +12,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   private isAuthenticated: boolean;
-  constructor(private authService: AuthService) {
+  constructor(private authService: AuthService, private userRoutersService: UserRoutersService) {
     authService.authState.subscribe((state: AngularFireAuthModule) => {
       this.isAuthenticated = state !== null;
     });
