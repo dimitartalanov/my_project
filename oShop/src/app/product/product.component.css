@@ -1,0 +1,30 @@
+
+.img{
+  margin:auto;
+}
+.reviews{
+  margin-bottom:2rem;
+  text-align: center;
+}
+.card{
+  height: 105%;
+  background-color: #edeff1;
+ /*   border: none !important;  */
+}
+.btn{
+  width:50%;
+  margin-bottom:1rem; 
+}
+.btn-buy{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+h4{
+  color:grey;
+}
+.imgColor {
+  border: none !important;  
+  background-color:rgba(237, 239, 241, 0.00);
+  height: 70%;
+}

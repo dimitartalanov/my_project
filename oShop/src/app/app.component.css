@@ -1,0 +1,16 @@
+main {
+     min-height:600px;
+     max-width: 90%;
+     margin: 0 auto;
+}
+.footer-bottom{
+  background-color:black;
+  padding:16px;
+  position:relative; 
+  bottom:0;
+  width:100%; 
+  z-index: 10; 
+}
+.footer-bottom .right{
+  padding-left: 300px;
+}

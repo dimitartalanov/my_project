@@ -1,0 +1,53 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse xs">
+  <div class="navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-md-0">
+      <li class="nav-item active" routerLinkActive="active">
+        <a class="nav-link fa fa-home" routerLink="/home"> Market Place <span class="sr-only">(current)</span></a>
+      </li>
+    </ul>
+    <ul class="navbar-nav mr-right my-2 my-lg-0">
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/users/sign-in" *ngIf="!isAuthenticated">
+        <span class="fa fa-sign-in"></span> Login 
+      </a>
+      </li>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" routerLink="/users/sign-up" *ngIf="!isAuthenticated">
+        <span class="fa fa-user-plus"></span> Register
+      </a>
+      </li>
+      <li>
+        <a class="nav-link" routerLink="/users/shopCart" *ngIf="isAuthenticated">
+          <span class="fa fa-shopping-cart" aria-hidden="true"></span>
+        </a>
+      </li>
+      <li class="nav-link" *ngIf="isAuthenticated">
+        <a (click)="onSignOutClick()" routerLink="/">
+          <span class="fa fa-sign-out"></span> Logout
+        </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<div class="footer-bottom d-none d-sm-block">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+        <div class="copyright">
+          Single-page | Angular
+        </div>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6 right">
+        <div class="design">
+          <a href="">Market Place</a> | <a target="_blank" href="">The Mellow Sheep</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

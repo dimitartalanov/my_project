@@ -1,0 +1,65 @@
+<header class="business-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <h1 class="display-3 text-center mt-4">Market place for mobile phone</h1>
+      </div>
+      <div class="col-lg-8">
+        <img src="../../assets/img/samsung-alaxy-j7-2016-background.png">
+      </div>
+      <div class="col-sm-4 contact">
+        <h2 class="mt-4"><a class="nav-link" routerLink="/about">Contact</a></h2>
+        <address>
+          <strong>Start find us</strong>
+          <br>3481 Melrose Place Samsung mobile phone
+          <br>Beverly Hills, CA 90210 Sinemorec :)
+          <br>
+        </address>
+        <address>
+          <abbr title="Phone">P:</abbr> (123) 456-7890
+          <br>
+          <abbr title="Email">E:</abbr>
+          <a href="mailto:#">marketplace@sinemorec.com</a>
+        </address>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="mt-4">What We Do</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A deserunt neque tempore recusandae animi soluta quasi? Asperiores
+        rem dolore eaque vel, porro, soluta unde debitis aliquam laboriosam. Repellat explicabo, maiores!</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Omnis optio neque consectetur consequatur magni in nisi,
+        natus beatae quidem quam odit commodi ducimus totam eum, alias, adipisci nesciunt voluptate. Voluptatum.</p>
+      <p>
+        <a class="btn btn-primary btn-lg" routerLink="/products-list">All products &raquo;</a>
+      </p>
+    </div>
+  </div>
+  <!-- /.row -->
+  <hr />
+  <div class="row">
+    <div *ngFor="let product of products | async" class="col-sm-3 my-3">
+      <div class="card">
+        <div class="imgColor">
+          <img class="card-img-top" src="{{product.image}}" alt="">
+        </div>
+        <div class="card-body">
+          <h4 class="card-title">{{product.title}}</h4>
+          <p class="card-text">{{product.display}}</p>
+        </div>
+        <div class="card-footer">
+          <a [routerLink]="['/product/', product.id]" class="btn btn-primary">More for this product</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="text-center">
+    <button (click)="onScroll()" class="btn">View more products...</button>
+  </p>
+
+  <div class="notification is-warning" *ngIf="finished">End... Taht`s all!!!</div>
